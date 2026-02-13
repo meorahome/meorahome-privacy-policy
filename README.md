@@ -3,7 +3,7 @@
 Last updated: February 13, 2026
 
 ## Introduction
-This Privacy Policy describes how Meora Home handles information in connection with our Pinterest content management application ("Meora Home Pin Manager").
+This Privacy Policy describes how Meora Home handles information in connection with our Pinterest content management application ("meorahome Content Management").
 
 ## What Our App Does
 Our application is a personal content scheduling and management tool used exclusively by the Meora Home account owner to preview and select product images for publishing, draft pin titles and descriptions, and schedule selected pins to chosen Pinterest boards. All actions are initiated and approved by the account owner. No content is published without user review and confirmation. The app is not available to the general public.
