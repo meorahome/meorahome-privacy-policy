@@ -1,4 +1,4 @@
-# Privacy Policy for Meora Home Content Manager
+# Privacy Policy for Meora Home Manager
 
 **Last updated: February 16, 2026**
 
@@ -12,7 +12,7 @@ Words with capitalized initial letters have meanings defined under the following
 
 ### Definitions
 
-- **App (Application):** Refers to Meora Home Content Manager, a personal content management tool used for managing and publishing content related to the Meora Home Etsy shop.
+- **App (Application):** Refers to Meora Home Manager, a personal content management tool used for managing and publishing content related to the Meora Home Etsy shop.
 - **Operator:** Refers to Meora Home (referred to as "We", "Us", or "Our" in this Policy), the sole operator and user of the App.
 - **Third-Party Services:** External platforms and APIs integrated with the App, including Google Drive, Google Sheets, and Pinterest API.
 - **Personal Data:** Any information that relates to an identified or identifiable individual.
@@ -21,7 +21,7 @@ Words with capitalized initial letters have meanings defined under the following
 
 ## Purpose of the App
 
-Meora Home Content Manager is a personal content management tool operated solely by Meora Home. The App assists the Operator in managing content workflows for the Meora Home Etsy shop, including:
+Meora Home Manager is a personal content management tool operated solely by Meora Home. The App assists the Operator in managing content workflows for the Meora Home Etsy shop, including:
 
 - Organizing and accessing product images stored in Google Drive
 - Managing product listing data via Google Sheets
