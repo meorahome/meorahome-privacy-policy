@@ -377,6 +377,9 @@
   .toggle input:checked + .slider { background: var(--accent); }
   .toggle input:checked + .slider::before { transform: translateX(18px); }
 
+  details[open] .details-arrow { transform: rotate(180deg); }
+  details summary::-webkit-details-marker { display: none; }
+
   footer {
     text-align: center;
     color: var(--muted);
@@ -648,136 +651,15 @@
       </div>
     </div>
 
-    <!-- Per-unit extras -->
-    <div class="card">
-      <div class="card-title">Прямые затраты на продажу</div>
+    <!-- Per-unit extras — MOVED TO SETTINGS BELOW -->
 
-      <div class="field">
-        <label>Доставка (если включена в цену)</label>
-        <div class="input-wrap">
-          <input type="number" id="shipping" value="0" step="0.5" min="0">
-          <span class="unit">€</span>
-        </div>
-      </div>
+    <!-- Faire / wholesale — MOVED TO SETTINGS BELOW -->
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem">
-        <div class="field" style="margin-bottom:0">
-          <label>Целевая маржа (Etsy)</label>
-          <div class="input-wrap">
-            <input type="number" id="targetMargin" value="64" step="5" min="0" max="90">
-            <span class="unit">%</span>
-          </div>
-          <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">доля прибыли от цены</div>
-        </div>
-        <div class="field" style="margin-bottom:0">
-          <label>Наценка Craftybase ×</label>
-          <div class="input-wrap">
-            <input type="number" id="markupMulti" value="4" step="0.1" min="1" max="10">
-            <span class="unit">×</span>
-          </div>
-          <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">×2.5 = +150% к себест.</div>
-        </div>
-      </div>
-
-      <div class="toggle-row">
-        <span class="toggle-label">IVA включён в цену (recargo)</span>
-        <label class="toggle">
-          <input type="checkbox" id="ivaToggle">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="field" id="ivaField" style="display:none">
-        <label>IVA %</label>
-        <div class="input-wrap">
-          <input type="number" id="ivaPct" value="21" step="1" min="0">
-          <span class="unit">%</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Faire / wholesale -->
-    <div class="card">
-      <div class="card-title">Faire · Опт</div>
-
-      <div class="field">
-        <label>Желаемая оптовая маржа</label>
-        <div class="input-wrap">
-          <input type="number" id="wholesaleMargin" value="20" step="5" min="0" max="80">
-          <span class="unit">%</span>
-        </div>
-        <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">норма для опта: 15–30%</div>
-      </div>
-    </div>
-
-    <!-- Etsy fees -->
-    <div class="card">
-      <div class="card-title">Комиссии Etsy</div>
-
-      <div class="field">
-        <label>IRPF (% с чистой прибыли)</label>
-        <div class="input-wrap">
-          <input type="number" id="irpfPct" value="0" step="1" min="0">
-          <span class="unit">%</span>
-        </div>
-      </div>
-    </div>
+    <!-- Etsy fees — MOVED TO SETTINGS BELOW -->
 
   </div>
 
-  <!-- FIXED COSTS BLOCK -->
-  <div class="card full-width" style="margin-bottom:1.25rem">
-    <div class="card-title">Фиксированные расходы месяца · не входят в цену товара</div>
-    <div class="fixed-costs-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem">
-      <div class="field" style="margin-bottom:0">
-        <label>Cuota autónomo</label>
-        <div class="input-wrap">
-          <input type="number" id="cuotaMonth" value="300" step="10" min="0">
-          <span class="unit">€</span>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:0">
-        <label>Etsy Ads / день</label>
-        <div class="input-wrap">
-          <input type="number" id="adsDayBudget" value="3" step="0.5" min="0">
-          <span class="unit">$</span>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:0">
-        <label>Прочие накладные</label>
-        <div class="input-wrap">
-          <input type="number" id="overhead" value="30" step="5" min="0">
-          <span class="unit">€/мес</span>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:0">
-        <label>Patreon / подписки</label>
-        <div class="input-wrap">
-          <input type="number" id="patreon" value="46" step="1" min="0">
-          <span class="unit">€/мес</span>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:0">
-        <label>Etsy+ подписка</label>
-        <div class="input-wrap">
-          <input type="number" id="etsyPlus" value="8.5" step="1" min="0">
-          <span class="unit">€/мес</span>
-        </div>
-        <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">стандарт €8.5/мес</div>
-      </div>
-    </div>
-    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;align-items:end">
-      <div>
-        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.3rem">Итого фикс. расходов/мес</div>
-        <div id="fixedTotal" style="font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--accent)">—</div>
-      </div>
-      <div>
-        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.3rem">Нужно выручки чтобы покрыть фиксы</div>
-        <div id="breakEvenRevenue" style="font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--accent2)">—</div>
-        <div style="font-size:0.7rem;color:var(--muted);margin-top:0.15rem">при рек. цене товара</div>
-      </div>
-    </div>
-  </div>
+  <!-- FIXED COSTS BLOCK — MOVED TO SETTINGS BELOW -->
 
   <!-- RESULTS -->
   <div class="result-card" id="resultCard">
@@ -1266,6 +1148,149 @@
           <span class="unit">%</span>
         </div>
       </div>
+    </div>
+  </details>
+
+  <!-- SETTINGS ACCORDION -->
+  <details style="margin-bottom:1.25rem">
+    <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent2);user-select:none">
+      <span>⚙ Настройки · маржа, комиссии, фиксы</span>
+      <span class="details-arrow" style="font-size:0.9rem;transition:transform 0.2s">▾</span>
+    </summary>
+    <div style="background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:1.5rem">
+
+      <!-- 3 cards grid -->
+      <div class="grid" style="margin-bottom:1.25rem">
+
+        <!-- Прямые затраты -->
+        <div class="card" style="border:none;padding:0">
+          <div class="card-title">Прямые затраты на продажу</div>
+
+          <div class="field">
+            <label>Доставка (если включена в цену)</label>
+            <div class="input-wrap">
+              <input type="number" id="shipping" value="0" step="0.5" min="0">
+              <span class="unit">€</span>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem">
+            <div class="field" style="margin-bottom:0">
+              <label>Целевая маржа (Etsy)</label>
+              <div class="input-wrap">
+                <input type="number" id="targetMargin" value="64" step="5" min="0" max="90">
+                <span class="unit">%</span>
+              </div>
+              <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">доля прибыли от цены</div>
+            </div>
+            <div class="field" style="margin-bottom:0">
+              <label>Наценка Craftybase ×</label>
+              <div class="input-wrap">
+                <input type="number" id="markupMulti" value="4" step="0.1" min="1" max="10">
+                <span class="unit">×</span>
+              </div>
+              <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">×2.5 = +150% к себест.</div>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <span class="toggle-label">IVA включён в цену (recargo)</span>
+            <label class="toggle">
+              <input type="checkbox" id="ivaToggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="field" id="ivaField" style="display:none">
+            <label>IVA %</label>
+            <div class="input-wrap">
+              <input type="number" id="ivaPct" value="21" step="1" min="0">
+              <span class="unit">%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Faire -->
+        <div class="card" style="border:none;padding:0">
+          <div class="card-title">Faire · Опт</div>
+          <div class="field">
+            <label>Желаемая оптовая маржа</label>
+            <div class="input-wrap">
+              <input type="number" id="wholesaleMargin" value="20" step="5" min="0" max="80">
+              <span class="unit">%</span>
+            </div>
+            <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">норма для опта: 15–30%</div>
+          </div>
+        </div>
+
+        <!-- Etsy fees -->
+        <div class="card" style="border:none;padding:0">
+          <div class="card-title">Комиссии Etsy</div>
+          <div class="field">
+            <label>IRPF (% с чистой прибыли)</label>
+            <div class="input-wrap">
+              <input type="number" id="irpfPct" value="0" step="1" min="0">
+              <span class="unit">%</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Fixed costs -->
+      <div style="border-top:1px solid var(--border);padding-top:1.25rem">
+        <div class="card-title">Фиксированные расходы месяца · не входят в цену товара</div>
+        <div class="fixed-costs-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem">
+          <div class="field" style="margin-bottom:0">
+            <label>Cuota autónomo</label>
+            <div class="input-wrap">
+              <input type="number" id="cuotaMonth" value="300" step="10" min="0">
+              <span class="unit">€</span>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Etsy Ads / день</label>
+            <div class="input-wrap">
+              <input type="number" id="adsDayBudget" value="3" step="0.5" min="0">
+              <span class="unit">$</span>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Прочие накладные</label>
+            <div class="input-wrap">
+              <input type="number" id="overhead" value="30" step="5" min="0">
+              <span class="unit">€/мес</span>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Patreon / подписки</label>
+            <div class="input-wrap">
+              <input type="number" id="patreon" value="46" step="1" min="0">
+              <span class="unit">€/мес</span>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Etsy+ подписка</label>
+            <div class="input-wrap">
+              <input type="number" id="etsyPlus" value="8.5" step="1" min="0">
+              <span class="unit">€/мес</span>
+            </div>
+            <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">стандарт €8.5/мес</div>
+          </div>
+        </div>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;align-items:end">
+          <div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.3rem">Итого фикс. расходов/мес</div>
+            <div id="fixedTotal" style="font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--accent)">—</div>
+          </div>
+          <div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.3rem">Нужно выручки чтобы покрыть фиксы</div>
+            <div id="breakEvenRevenue" style="font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--accent2)">—</div>
+            <div style="font-size:0.7rem;color:var(--muted);margin-top:0.15rem">при рек. цене товара</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </details>
 
@@ -1871,10 +1896,8 @@
   canvas.width = 512; canvas.height = 512;
   const ctx = canvas.getContext('2d');
 
-  // Background
-  ctx.fillStyle = '#2d4a3e';
-  // Rounded rect
-  const r = 100;
+  // Rounded rect background with gradient
+  const r = 110;
   ctx.beginPath();
   ctx.moveTo(r, 0); ctx.lineTo(512-r, 0);
   ctx.quadraticCurveTo(512, 0, 512, r);
@@ -1885,19 +1908,59 @@
   ctx.lineTo(0, r);
   ctx.quadraticCurveTo(0, 0, r, 0);
   ctx.closePath();
+  const grad = ctx.createLinearGradient(0, 0, 512, 512);
+  grad.addColorStop(0, '#1e3329');
+  grad.addColorStop(1, '#2d4a3e');
+  ctx.fillStyle = grad;
   ctx.fill();
 
-  // € symbol
+  // Draw house
+  const cx = 256, baseY = 390, w = 240, h = 160;
+  const roofTip = 148;
+
+  // House body
+  ctx.beginPath();
+  ctx.rect(cx - w/2, baseY - h, w, h);
+  ctx.fillStyle = 'rgba(200,169,110,0.18)';
+  ctx.fill();
+  ctx.strokeStyle = '#c8a96e';
+  ctx.lineWidth = 12;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // Roof
+  ctx.beginPath();
+  ctx.moveTo(cx - w/2 - 20, baseY - h);
+  ctx.lineTo(cx, roofTip);
+  ctx.lineTo(cx + w/2 + 20, baseY - h);
+  ctx.closePath();
   ctx.fillStyle = '#c8a96e';
-  ctx.font = 'bold 280px serif';
+  ctx.fill();
+
+  // Door
+  const dw = 64, dh = 88;
+  ctx.beginPath();
+  ctx.rect(cx - dw/2, baseY - dh, dw, dh);
+  ctx.fillStyle = '#1e3329';
+  ctx.fill();
+  ctx.strokeStyle = '#c8a96e';
+  ctx.lineWidth = 8;
+  ctx.stroke();
+  // Door arch
+  ctx.beginPath();
+  ctx.arc(cx, baseY - dh, dw/2, Math.PI, 0);
+  ctx.fillStyle = '#1e3329';
+  ctx.fill();
+  ctx.strokeStyle = '#c8a96e';
+  ctx.lineWidth = 8;
+  ctx.stroke();
+
+  // Small "meora" text
+  ctx.fillStyle = 'rgba(200,169,110,0.6)';
+  ctx.font = '400 54px Georgia, serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('€', 256, 270);
-
-  // Small M
-  ctx.fillStyle = 'rgba(255,255,255,0.5)';
-  ctx.font = '80px sans-serif';
-  ctx.fillText('meora', 256, 430);
+  ctx.fillText('meora', 256, 450);
 
   const iconUrl = canvas.toDataURL('image/png');
 
