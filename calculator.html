@@ -402,6 +402,11 @@
     .card { padding: 1rem; border-radius: 10px; }
     .result-card { padding: 1.25rem; border-radius: 12px; }
 
+    /* Fixed costs: 5 cols → 2 cols */
+    .fixed-costs-grid {
+      grid-template-columns: 1fr 1fr !important;
+    }
+
     /* All 3-col grids → 1 col */
     [style*="grid-template-columns:1fr 1fr 1fr"],
     [style*="grid-template-columns: 1fr 1fr 1fr"] {
@@ -429,11 +434,6 @@
       gap: 0.75rem;
     }
 
-    /* Breakeven grid → 2-col */
-    .be-grid {
-      grid-template-columns: 1fr 1fr !important;
-    }
-
     /* Input font size — prevent iOS zoom on focus */
     input[type="number"],
     input[type="text"],
@@ -443,30 +443,6 @@
 
     /* Bigger tap targets */
     .input-wrap input { padding: 0.7rem 2.5rem 0.7rem 0.9rem; }
-
-    /* Multi-part part rows — 3 fields + × in a row */
-    #partsContainer [style*="grid-template-columns:1fr 1fr 1fr auto"] {
-      grid-template-columns: 1fr 1fr 1fr auto !important;
-    }
-
-    /* Discount table: stack rows */
-    [style*="grid-template-columns:1fr 1fr 1fr"][style*="discount"],
-    .discount-grid {
-      grid-template-columns: 1fr 1fr !important;
-    }
-
-    /* Details/collapsible padding */
-    details > div { padding: 0.75rem !important; }
-
-    /* Faire section grids */
-    [style*="grid-template-columns:1fr 1fr 1fr 1fr"] {
-      grid-template-columns: 1fr 1fr !important;
-    }
-
-    /* My price section */
-    [style*="grid-template-columns:1fr 1fr 1fr"][id] {
-      grid-template-columns: 1fr 1fr !important;
-    }
 
     /* Breakdown rows — prevent overflow */
     .breakdown-row { font-size: 0.78rem; }
@@ -743,7 +719,7 @@
   <!-- FIXED COSTS BLOCK -->
   <div class="card full-width" style="margin-bottom:1.25rem">
     <div class="card-title">Фиксированные расходы месяца · не входят в цену товара</div>
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem">
+    <div class="fixed-costs-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem">
       <div class="field" style="margin-bottom:0">
         <label>Cuota autónomo</label>
         <div class="input-wrap">
