@@ -585,6 +585,14 @@
                 <span class="unit">шт</span>
               </div>
             </div>
+            <div class="field">
+              <label>Брак / переprint</label>
+              <div class="input-wrap">
+                <input type="number" id="defectPct" value="0" step="1" min="0" max="50">
+                <span class="unit">%</span>
+              </div>
+              <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">10% = каждая 10-я в брак</div>
+            </div>
           </div>
 
           <!-- Multi-part: elec is summed from parts -->
@@ -607,6 +615,7 @@
               <input type="number" id="consumables" value="0" step="0.05" min="0">
               <span class="unit">€</span>
             </div>
+            <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem">стоимость на 1 изделие</div>
           </div>
           <div class="field">
             <label>Упаковка (коробка, бумага, лента)</label>
@@ -1235,6 +1244,26 @@
           </div>
         </div>
 
+        <!-- Amortization -->
+        <div class="card" style="border:none;padding:0">
+          <div class="card-title">Амортизация принтера</div>
+          <div class="field">
+            <label>Стоимость принтера</label>
+            <div class="input-wrap">
+              <input type="number" id="printerCost" value="400" step="10" min="0" disabled>
+              <span class="unit">€</span>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Ресурс принтера</label>
+            <div class="input-wrap">
+              <input type="number" id="printerHours" value="2000" step="100" min="1" disabled>
+              <span class="unit">ч</span>
+            </div>
+            <div style="font-size:0.68rem;color:var(--muted);margin-top:0.25rem" id="amortRate">€0.200/ч</div>
+          </div>
+        </div>
+
       </div>
 
       <!-- Fixed costs -->
@@ -1351,6 +1380,9 @@
     const spoolPrice = +$('plaSpoolPriceMulti').value || 0;
     const printerWatts = +$('printerWatts').value || 100;
     const kwPrice = +$('kwPrice').value || 0.23;
+    const printerCost  = +$('printerCost').value || 400;
+    const printerHours = Math.max(1, +$('printerHours').value || 5000);
+    const amortRate    = printerCost / printerHours;
     let totalPlaCost = 0, totalElecCost = 0;
     let i = 1;
     while (i <= partCount) {
@@ -1360,7 +1392,8 @@
         const h = +document.getElementById('ph-' + i).value || 0;
         const items = Math.max(1, +document.getElementById('pi-' + i).value || 1);
         totalPlaCost += (g / 1000) * spoolPrice / items;
-        totalElecCost += (printerWatts / 1000) * h / items * kwPrice;
+        totalElecCost += (printerWatts / 1000) * h / items * kwPrice
+                       + amortRate * h / items;
       }
       i++;
     }
@@ -1404,20 +1437,25 @@
   function calc() {
     // PLA + Electricity: single or multi-part
     const isMulti = $('multiPartToggle').checked;
+    const defectMult = 1 + ((+$('defectPct').value || 0) / 100);
     let plaCost, elecCost;
     if (isMulti) {
       const t = getMultiPartTotals();
-      plaCost  = t.totalPlaCost;
-      elecCost = t.totalElecCost;
+      plaCost  = t.totalPlaCost  * defectMult;
+      elecCost = t.totalElecCost * defectMult;
     } else {
       const plaGrams      = +$('plaGrams').value || 0;
       const plaSpoolPrice = +$('plaSpoolPrice').value || 0;
       const itemsPerPlate = Math.max(1, +$('itemsPerPlate').value || 1);
-      plaCost  = (plaGrams / 1000) * plaSpoolPrice / itemsPerPlate;
+      plaCost  = (plaGrams / 1000) * plaSpoolPrice / itemsPerPlate * defectMult;
       const printHours   = +$('printHours').value || 0;
       const printerWatts = +$('printerWatts').value || 0;
       const kwPrice      = +$('kwPrice').value || 0;
-      elecCost = (printerWatts / 1000) * (printHours / itemsPerPlate) * kwPrice;
+      const printerCost  = +$('printerCost').value || 400;
+      const printerHours = Math.max(1, +$('printerHours').value || 5000);
+      const amortRate    = printerCost / printerHours;
+      elecCost = ((printerWatts / 1000) * (printHours / itemsPerPlate) * kwPrice
+               + amortRate * (printHours / itemsPerPlate)) * defectMult;
     }
 
     // Other direct costs
@@ -1432,6 +1470,11 @@
     // Update material sub-displays
     $('plaCalc').textContent        = fmt(plaCost);
     $('elecCalc').textContent       = fmt(elecCost);
+    // Update amort rate hint
+    const pCost = +$('printerCost').value || 400;
+    const pHrs  = Math.max(1, +$('printerHours').value || 5000);
+    const amEl  = document.getElementById('amortRate');
+    if (amEl) amEl.textContent = '€' + (pCost/pHrs).toFixed(3) + '/ч';
     $('materialsTotal').textContent = fmt(plaCost + elecCost + consumables + packaging);
     $('laborCalc').textContent      = fmt(labor);
 
@@ -1779,21 +1822,26 @@
     const extras     = +$('consumables').value    || 0;
 
     // Per-unit core costs: single or multi-part
+    const defectMult2 = 1 + ((+$('defectPct').value || 0) / 100);
     let matCost, elecCost;
     if ($('multiPartToggle').checked) {
       const t = getMultiPartTotals();
-      matCost  = t.totalPlaCost;
-      elecCost = t.totalElecCost;
+      matCost  = t.totalPlaCost  * defectMult2;
+      elecCost = t.totalElecCost * defectMult2;
     } else {
       const printerWatts  = +$('printerWatts').value || 100;
       const kwPrice       = +$('kwPrice').value      || 0.23;
+      const printerCost   = +$('printerCost').value  || 400;
+      const printerHours2 = Math.max(1, +$('printerHours').value || 5000);
+      const amortRate2    = printerCost / printerHours2;
       const itemsPerPlate = Math.max(1, +$('itemsPerPlate').value || 1);
-      matCost  = plaGrams / 1000 * plaPrice / itemsPerPlate;
-      elecCost = (printerWatts / 1000) * (printHours / itemsPerPlate) * kwPrice;
+      matCost  = plaGrams / 1000 * plaPrice / itemsPerPlate * defectMult2;
+      elecCost = ((printerWatts / 1000) * (printHours / itemsPerPlate) * kwPrice
+               + amortRate2 * (printHours / itemsPerPlate)) * defectMult2;
     }
     const unitCoreCost = matCost + elecCost + extras;
 
-    // Set-level packaging: override or same as single
+    // Set-level packaging: one box for whole set (override or single packaging value)
     const setPackagingVal = $('setPackaging').value !== '' ? +$('setPackaging').value : packaging;
 
     // Set-level labor: override (in minutes) or per-unit hours × qty
@@ -1805,7 +1853,7 @@
       setLaborCost = singleLaborCost * qty;
     }
 
-    // Total set cost — no overhead multiplier (overhead is monthly fixed, same as main calc)
+    // Total set cost: materials × qty + one packaging + labor
     const setTotalCost = unitCoreCost * qty + setPackagingVal + setLaborCost;
 
     // Fee constants (correct IDs)
